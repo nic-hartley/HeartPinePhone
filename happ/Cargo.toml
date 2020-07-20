@@ -1,0 +1,14 @@
+[package]
+name = "happ"
+version = "0.1.0"
+authors = ["Nic Hartley <nic@cybers.eco>"]
+edition = "2018"
+
+[lib]
+name = "happ"
+
+[[bin]]
+name = "happ-build"
+
+[dependencies]
+
