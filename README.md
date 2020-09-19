@@ -13,6 +13,7 @@ This repo is split into four sections:
 - **cargo-happ**, a custom Cargo subcommand to build HeartPinePhone apps.
   `aarch64-happ` will get you an executable built, but `cargo-happ` is how you sign it, compress it, etc.
 - **kernel**, the kernel itself, plus a build script to get it into U_Boot format.
+- **explorer**, firmware for the PinePhone that I'm using to explore the device.
 
 For more info on each, see their respective READMEs.
 

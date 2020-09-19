@@ -1,2 +1,2 @@
 [workspace]
-members = [ "kernel", "cargo-happ" ]
+members = [ "cargo-happ", "explorer", "kernel" ]

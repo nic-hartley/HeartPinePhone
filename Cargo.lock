@@ -5,6 +5,10 @@ name = "cargo-happ"
 version = "0.1.0"
 
 [[package]]
+name = "explorer"
+version = "0.1.0"
+
+[[package]]
 name = "kernel"
 version = "0.1.0"
 
