@@ -17,5 +17,9 @@ This repo is split into four sections:
 For more info on each, see their respective READMEs.
 
 There's also [the devblog]!
+Notes will generally end up in this repo first, because while my blogposts can be eclectic, I do try to keep them coherent.
+That generally means thinking through my ideas and refining them a bit.
+The notes here are mostly for me, so I can pick back up on them.
+The posts are reserved for when I have a slightly better idea of what I'm thinking about.
 
   [the devblog]: https://redfennec.dev/hpp
