@@ -1,2 +1,2 @@
 [workspace]
-members = [ "kernel", "happ" ]
+members = [ "kernel", "aarch64-happ", "cargo-happ" ]
