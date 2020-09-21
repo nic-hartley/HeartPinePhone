@@ -1,2 +1,8 @@
 [workspace]
 members = [ "cargo-happ", "explorer", "kernel" ]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
