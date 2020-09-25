@@ -5,3 +5,4 @@ authors = ["Nic Hartley <nic@cybers.eco>"]
 edition = "2018"
 
 [dependencies]
+cortex-a = "3.0.4"

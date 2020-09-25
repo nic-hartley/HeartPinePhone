@@ -5,10 +5,36 @@ name = "cargo-happ"
 version = "0.1.0"
 
 [[package]]
+name = "cortex-a"
+version = "3.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6922a40af4d1a2deac8c963b9f3e57311b8912490740234f1ad182425c547f80"
+dependencies = [
+ "register",
+]
+
+[[package]]
 name = "explorer"
 version = "0.1.0"
+dependencies = [
+ "cortex-a",
+]
 
 [[package]]
 name = "kernel"
 version = "0.1.0"
 
+[[package]]
+name = "register"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "deaba5b0e477d21f61a57504bb5cef4a1e86de30300b457d38971c1cfc98b815"
+dependencies = [
+ "tock-registers",
+]
+
+[[package]]
+name = "tock-registers"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "70323afdb8082186c0986da0e10f6e4ed103d681c921c00597e98d9806dac20f"
