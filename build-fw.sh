@@ -17,13 +17,14 @@ cd mksunxiboot
 gcc -O3 mksunxiboot.c -o t
 cd ..
 
-cargo_target=./target/aarch64-unknown-none/release
+arch=armv7a-none-eabi
+cargo_target=./target/"$arch"/release
 fw_target=./target/firmware
 fw_target_bld="$fw_target"/intermediate
 
 mkdir -p "$fw_target" "$fw_target_bld"
 
-cargo +nightly build --release --target=aarch64-unknown-none -p "$proj" "$@" || exit $?
+cargo +nightly build --release --target="$arch" -p "$proj" "$@" || exit $?
 aarch64-linux-gnu-objcopy -O binary -j .text "$cargo_target"/"$proj" "$fw_target_bld"/"$proj".bin || exit $?
 ./mksunxiboot/t "$fw_target_bld"/"$proj".bin "$fw_target_bld"/"$proj".hdr || exit $?
 dd bs=1024 if="$fw_target_bld"/"$proj".hdr seek=8 of="$fw_target"/"$proj".img || exit $?
