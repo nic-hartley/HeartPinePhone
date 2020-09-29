@@ -17,3 +17,4 @@ mod registers;
 use registers::*;
 pub mod led;
 pub mod vibe;
+pub mod power;

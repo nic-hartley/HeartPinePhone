@@ -1,0 +1,3 @@
+pub fn off() -> ! {
+  loop {}
+}

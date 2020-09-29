@@ -14,7 +14,7 @@ fn on_panic(_info: &core::panic::PanicInfo) -> ! {
 }
 
 #[no_mangle]
-fn _start() {
+fn _start() -> ! {
   for _ in 0..5 {
     hw::led::set(Color::Green);
     hw::spin_delay(25);
@@ -31,10 +31,11 @@ fn _start() {
     hw::spin_delay(500);
   }
 
-  loop {
+  for _ in 0..5 {
     hw::led::set(hw::led::Color::Red);
     hw::spin_delay(50);
     hw::led::set(hw::led::Color::Black);
     hw::spin_delay(50);
   }
+  hw::power::off()
 }
