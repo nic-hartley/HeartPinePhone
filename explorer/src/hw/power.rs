@@ -1,3 +1,3 @@
 pub fn off() -> ! {
-  loop {}
+  loop { super::ensure_side_effect(); }
 }

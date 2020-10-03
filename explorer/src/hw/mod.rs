@@ -5,16 +5,20 @@
 // https://github.com/rust-lang/rust/issues/77321
 #![allow(const_item_mutation)]
 
-pub fn spin_delay(rough_usecs: usize) {
-  for _ in 0..rough_usecs {
-    for d in 0..1000 {
-      core::hint::black_box(d);
-    }
-  }
-}
-
 mod registers;
 use registers::*;
 pub mod led;
 pub mod vibe;
 pub mod power;
+
+fn ensure_side_effect() {
+  let _ = unsafe { core::ptr::read_volatile(VER_REG) };
+}
+
+pub fn spin_delay(rough_usecs: usize) {
+  for _ in 0..rough_usecs {
+    for _ in 0..1000 {
+      ensure_side_effect();
+    }
+  }
+}
