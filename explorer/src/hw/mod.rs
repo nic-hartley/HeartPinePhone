@@ -10,6 +10,7 @@ use registers::*;
 pub mod led;
 pub mod vibe;
 pub mod power;
+pub mod dbg_uart;
 
 fn ensure_side_effect() {
   let _ = unsafe { core::ptr::read_volatile(VER_REG) };
@@ -17,7 +18,8 @@ fn ensure_side_effect() {
 
 pub fn spin_delay(rough_usecs: usize) {
   for _ in 0..rough_usecs {
-    for _ in 0..1000 {
+    for d in 0..1000 {
+      core::hint::black_box(d);
       ensure_side_effect();
     }
   }

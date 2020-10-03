@@ -15,12 +15,15 @@ fn on_panic(_info: &core::panic::PanicInfo) -> ! {
 
 #[no_mangle]
 fn _start() -> ! {
+  hw::vibe::set(true);
+  hw::led::set(Color::Blue);
   for _ in 0..5 {
     hw::led::set(Color::Green);
     hw::spin_delay(25);
     hw::led::set(hw::led::Color::Black);
     hw::spin_delay(25);
   }
+  hw::vibe::set(false);
 
   for _ in 0..10 {
     hw::led::set(Color::White);
