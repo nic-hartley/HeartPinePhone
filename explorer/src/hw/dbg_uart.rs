@@ -3,14 +3,11 @@
 
 use super::*;
 
-pub fn init(_div: u32) -> bool {
+pub fn init(_div: u32) {
   unsafe {
-    if *UART0_SCH & 0xff != 0 { return false; }
+    if *UART0_SCH & 0xff != 0 { return; }
     *UART0_SCH = 1;
   }
 
   //TODO: the rest of this, idk
-  return true;
 }
-
-
