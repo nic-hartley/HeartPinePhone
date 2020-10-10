@@ -1,14 +1,14 @@
 use super::*;
 
 pub enum Color {
-  Red = 0b010,
-  Yellow = 0b011,
-  Green = 0b001,
-  Cyan = 0b101,
-  Blue = 0b100,
-  Magenta = 0b110,
-  Black = 0b000,
-  White = 0b111,
+  Red =     0b00000000_00001000_00000000_00000000,
+  Yellow =  0b00000000_00001100_00000000_00000000,
+  Green =   0b00000000_00000100_00000000_00000000,
+  Cyan =    0b00000000_00010100_00000000_00000000,
+  Blue =    0b00000000_00010000_00000000_00000000,
+  Magenta = 0b00000000_00011000_00000000_00000000,
+  Black =   0b00000000_00000000_00000000_00000000,
+  White =   0b00000000_00011100_00000000_00000000,
 }
 
 impl Color {
@@ -28,12 +28,10 @@ impl Color {
 
 pub fn set(color: Color) {
   unsafe {
-    *PD_CFG_REG[2] &= 0xfff000ff;
-    *PD_CFG_REG[2] |= 0x00011100;
+    *PD_CFG_REG[2] = *PD_CFG_REG[2] & 0xfff000ff | 0x00011100;
   }
 
   unsafe {
-    *PD_DATA_REG &= 0b11111111_11100011_11111111_11111111;
-    *PD_DATA_REG |= (color as u32) << 18;
+    *PD_DATA_REG = *PD_DATA_REG & 0b11111111_11100011_11111111_11111111 | color as u32;
   }
 }
