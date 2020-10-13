@@ -27,11 +27,6 @@ impl Color {
 }
 
 pub fn set(color: Color) {
-  unsafe {
-    *PD_CFG_REG[2] = *PD_CFG_REG[2] & 0xfff000ff | 0x00011100;
-  }
-
-  unsafe {
-    *PD_DATA_REG = *PD_DATA_REG & 0b11111111_11100011_11111111_11111111 | color as u32;
-  }
+  PD_CFG_REG.index(2).update(|r| r & 0xfff000ff | 0x00011100);
+  PD_DATA_REG.update(|r| r & 0b11111111_11100011_11111111_11111111 | (color as u32) << 18);
 }

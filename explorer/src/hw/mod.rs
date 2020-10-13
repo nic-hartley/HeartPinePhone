@@ -5,22 +5,21 @@
 // https://github.com/rust-lang/rust/issues/77321
 #![allow(const_item_mutation)]
 
-mod registers;
+pub mod registers;
 use registers::*;
 pub mod led;
 pub mod vibe;
 pub mod power;
 pub mod dbg_uart;
 
-fn ensure_side_effect() {
-  let _ = unsafe { core::ptr::read_volatile(VER_REG) };
+#[inline(always)]
+pub fn ensure_side_effect() {
+  let _ = VER_REG.read();
 }
 
-pub fn spin_delay(rough_usecs: usize) {
-  for _ in 0..rough_usecs {
-    for d in 0..1000 {
-      core::hint::black_box(d);
-      ensure_side_effect();
-    }
+#[inline(always)]
+pub fn spin_delay(loops: usize) {
+  for _ in 0..loops {
+    ensure_side_effect()
   }
 }
