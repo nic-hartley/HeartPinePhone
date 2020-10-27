@@ -1,0 +1,41 @@
+{
+  "arch": "arm",
+  "code-model": "small",
+  "data-layout": "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64",
+  "disable-redzone": true,
+  "dynamic-linking": false,
+  "emit-debug-gdb-scripts": false,
+  "env": "",
+  "executables": true,
+  "features": "+v7,+thumb2,+soft-float,-neon,+strict-align",
+  "function-sections": false,
+  "linker": "rust-lld",
+  "linker-flavor": "ld.lld",
+  "llvm-target": "armv7a-none-eabi",
+  "max-atomic-width": 64,
+  "no-default-libraries": true,
+  "os": "none",
+  "panic-strategy": "abort",
+  "position-independent-executables": false,
+  "pre-link-objects": {
+    "dynamic-pic-exe": [ "error-link-output-kind-dynamic-pic-exe" ],
+    "dynamic-nopic-exe": [ "./target/compile-target/hpprt.o" ],
+    "static-pic-exe": [ "error-link-output-kind-static-pic-exe" ],
+    "static-nopic-exe": [ "error-link-output-kind-static-nopic-exe" ],
+    "dynamic-dylib": [ "error-link-output-kind-dynamic-dylib" ],
+    "static-dylib": [ "error-link-output-kind-static-dylib" ]
+  },
+  "pre-link-args": {
+    "ld.lld": [
+      "-T",
+      "./target/compile-target/ls.ld"
+    ]
+  },
+  "relocation-model": "static",
+  "relro-level": "off",
+  "target-c-int-width": "32",
+  "target-endian": "little",
+  "target-pointer-width": "32",
+  "unsupported-abis": [ "stdcall", "fastcall", "vectorcall", "thiscall", "win64", "sysv64" ],
+  "vendor": "pine-hpp"
+}

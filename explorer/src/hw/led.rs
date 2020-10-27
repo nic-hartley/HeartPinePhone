@@ -1,14 +1,14 @@
 use super::*;
 
 pub enum Color {
-  Red =     0b00000000_00001000_00000000_00000000,
-  Yellow =  0b00000000_00001100_00000000_00000000,
-  Green =   0b00000000_00000100_00000000_00000000,
-  Cyan =    0b00000000_00010100_00000000_00000000,
-  Blue =    0b00000000_00010000_00000000_00000000,
-  Magenta = 0b00000000_00011000_00000000_00000000,
-  Black =   0b00000000_00000000_00000000_00000000,
-  White =   0b00000000_00011100_00000000_00000000,
+  Red =     0b010 << 18,
+  Yellow =  0b011 << 18,
+  Green =   0b001 << 18,
+  Cyan =    0b101 << 18,
+  Blue =    0b100 << 18,
+  Magenta = 0b110 << 18,
+  Black =   0b000 << 18,
+  White =   0b111 << 18,
 }
 
 impl Color {
@@ -26,7 +26,10 @@ impl Color {
   }
 }
 
-pub fn set(color: Color) {
+pub fn init() {
   PD_CFG_REG.index(2).update(|r| r & 0xfff000ff | 0x00011100);
-  PD_DATA_REG.update(|r| r & 0b11111111_11100011_11111111_11111111 | (color as u32) << 18);
+}
+
+pub fn set(color: Color) {
+  PD_DATA_REG.update(|r| (r & !0x001c0000) | (color as u32));
 }

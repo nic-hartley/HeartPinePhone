@@ -5,7 +5,7 @@
 // https://github.com/rust-lang/rust/issues/77321
 #![allow(const_item_mutation)]
 
-pub mod registers;
+mod registers;
 use registers::*;
 pub mod led;
 pub mod vibe;
@@ -13,7 +13,7 @@ pub mod power;
 pub mod dbg_uart;
 
 #[inline(always)]
-pub fn ensure_side_effect() {
+fn ensure_side_effect() {
   let _ = VER_REG.read();
 }
 

@@ -14,27 +14,43 @@
 #[repr(transparent)]
 pub struct Register<Data: Copy>(*mut Data);
 
+/// A type to wrap MMIO registers and make them cleaner to access.
+/// It frontloads the unsafety so that subsequent accesses are `safe` (and short).
+/// It also ensures all accesses are volatile, so the compiler won't optimize them out.
 impl<Data: Copy> Register<Data> {
+  /// Create a register mapped to the memory at the given address.
+  /// 
+  /// ## Safety
+  /// You must ensure that the address is valid to access (correctly aligned,
+  /// sized, etc.) across the whole struct pointed to.
   #[inline(always)]
   pub const unsafe fn at_addr(addr: usize) -> Register<Data> {
     Register(addr as *mut Data)
   }
 
+  /// Create a register mapped to a specific pointer.
+  ///
+  /// ## Safety
+  /// You must ensure that the pointer is valid to access (correctly aligned,
+  /// sized, etc.) across the whole struct pointed to.
   #[inline(always)]
   pub const unsafe fn at_ptr(ptr: *mut Data) -> Register<Data> {
     Register(ptr)
   }
 
+  /// Read the value in this register.
   #[inline(always)]
   pub fn read(&self) -> Data {
     unsafe { core::ptr::read_volatile(self.0) }
   }
 
+  /// Writes the value to the register.
   #[inline(always)]
   pub fn write(&self, new: Data) {
     unsafe { core::ptr::write_volatile(self.0, new) }
   }
 
+  /// Change the value in the register by mutating a mutable reference.
   #[inline(always)]
   pub fn mutate<F>(&self, updater: F) -> Data
       where F: FnOnce(&mut Data)
@@ -45,6 +61,7 @@ impl<Data: Copy> Register<Data> {
     val
   }
 
+  /// Change the value in the register by returning a new value from a closure.
   #[inline(always)]
   pub fn update<F>(&self, updater: F) -> Data
       where F: FnOnce(Data) -> Data
@@ -57,6 +74,9 @@ impl<Data: Copy> Register<Data> {
 }
 
 impl<Elem: Copy, const N: usize> Register<[Elem; N]> {
+  /// If this register is an array, get the Nth item in that array.
+  // (implementing this with the Index trait would be a lot more work, to cope
+  // with lifetimes)
   pub fn index(&self, index: isize) -> Register<Elem>
   {
     let first_ele = self.0 as *mut Elem;
