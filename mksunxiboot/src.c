@@ -8,6 +8,7 @@
  * 
  * Ripped out from p-boot/src/{tools/mksunxiboot.c,arch/arm/include/asm/arch-sunxi/spl.h}
  * Combined to be just one file
+ * Some unused features removed
  */
 #include <fcntl.h>
 #include <stdio.h>
@@ -163,30 +164,9 @@ int main(int argc, char *argv[])
 		return EXIT_FAILURE;
 	}
 
-	/* process optional command line switches */
-	while (argc >= 2 && argv[1][0] == '-') {
-		if (strcmp(argv[1], "--default-dt") == 0) {
-			if (argc >= 3) {
-				default_dt = argv[2];
-				argv += 2;
-				argc -= 2;
-				continue;
-			}
-			fprintf(stderr, "ERROR: no --default-dt arg\n");
-			return EXIT_FAILURE;
-		} else {
-			fprintf(stderr, "ERROR: bad option '%s'\n", argv[1]);
-			return EXIT_FAILURE;
-		}
-	}
-
 	if (argc < 3) {
 		printf("This program converts an input binary file to a sunxi bootable image.\n");
-		printf("\nUsage: %s [options] input_file output_file\n",
-		       tool_name);
-		printf("Where [options] may be:\n");
-		printf("  --default-dt arg         - 'arg' is the default device tree name\n");
-		printf("                             (CONFIG_DEFAULT_DEVICE_TREE).\n");
+		printf("\nUsage: %s input_file output_file\n", tool_name);
 		return EXIT_FAILURE;
 	}
 
@@ -233,18 +213,6 @@ int main(int argc, char *argv[])
 
 	memcpy(img.header.spl_signature, SPL_SIGNATURE, 3); /* "sunxi" marker */
 	img.header.spl_signature[3] = SPL_HEADER_VERSION;
-
-	if (default_dt) {
-		if (strlen(default_dt) + 1 <= sizeof(img.header.string_pool)) {
-			strcpy((char *)img.header.string_pool, default_dt);
-			img.header.dt_name_offset =
-				htole32(offsetof(struct boot_file_head,
-						     string_pool));
-		} else {
-			printf("WARNING: The SPL header is too small\n");
-			printf("         and has no space to store the dt name.\n");
-		}
-	}
 
 	if (gen_check_sum(&img.header) < 0) {
 		printf("ERROR: Checksum failed\n");

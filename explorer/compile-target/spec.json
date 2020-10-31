@@ -9,6 +9,10 @@
   "executables": true,
   "features": "+v7,+thumb2,+soft-float,-neon,+strict-align",
   "function-sections": false,
+  "hpp": {
+    "platform-prefix": "arm-none-eabi",
+    "as-flags": "-march=armv7-a"
+  },
   "linker": "rust-lld",
   "linker-flavor": "ld.lld",
   "llvm-target": "armv7a-none-eabi",

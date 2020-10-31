@@ -10,6 +10,13 @@ MEMORY {
 SECTIONS {
   ALIGNMENT = 0x10;
 
+  /* .header is just to ensure addresses are calculated with the eGON header in mind */
+  /* note this _cannot_ just be a += in .text; a separate section carves out the "added" bytes */
+  .header : {
+    /* value is constant, based on the contents of mksunxiboot.c */
+    . += 0x60;
+  } >sram_a1 = 0x00
+
   /* .text will be copied out into the binary and actually executed */
   .text : {
     hpprt.o(.text);

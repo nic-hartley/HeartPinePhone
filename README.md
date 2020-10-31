@@ -23,4 +23,17 @@ That generally means thinking through my ideas and refining them a bit.
 The notes here are mostly for me, so I can pick back up on them.
 The posts are reserved for when I have a slightly better idea of what I'm thinking about.
 
+## `build-fw.sh`
+
+I've got a shell script to handle all the steps of building, for now.
+Eventually it'll be a nice, clean Cargo subcommand, but for now it's... not.
+
+To make it work, you'll need:
+
+- Nightly rust, with the `rust-src` component _on nightly_.
+  Install it with `rustup component add rust-src --toolchain nightly`.
+- The assembler and objcopy for the right platform.
+  To check which you need, look at the project's `compile-target/spec.json`'s `project-platform` value.
+  You can generally install a package called `[prefix]-binutils` and be all set.
+
   [the devblog]: https://redfennec.dev/hpp

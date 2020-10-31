@@ -23,7 +23,6 @@ impl<Data: Copy> Register<Data> {
   /// ## Safety
   /// You must ensure that the address is valid to access (correctly aligned,
   /// sized, etc.) across the whole struct pointed to.
-  #[inline(always)]
   pub const unsafe fn at_addr(addr: usize) -> Register<Data> {
     Register(addr as *mut Data)
   }
@@ -33,25 +32,21 @@ impl<Data: Copy> Register<Data> {
   /// ## Safety
   /// You must ensure that the pointer is valid to access (correctly aligned,
   /// sized, etc.) across the whole struct pointed to.
-  #[inline(always)]
   pub const unsafe fn at_ptr(ptr: *mut Data) -> Register<Data> {
     Register(ptr)
   }
 
   /// Read the value in this register.
-  #[inline(always)]
   pub fn read(&self) -> Data {
     unsafe { core::ptr::read_volatile(self.0) }
   }
 
   /// Writes the value to the register.
-  #[inline(always)]
   pub fn write(&self, new: Data) {
     unsafe { core::ptr::write_volatile(self.0, new) }
   }
 
   /// Change the value in the register by mutating a mutable reference.
-  #[inline(always)]
   pub fn mutate<F>(&self, updater: F) -> Data
       where F: FnOnce(&mut Data)
   {
@@ -62,7 +57,6 @@ impl<Data: Copy> Register<Data> {
   }
 
   /// Change the value in the register by returning a new value from a closure.
-  #[inline(always)]
   pub fn update<F>(&self, updater: F) -> Data
       where F: FnOnce(Data) -> Data
   {

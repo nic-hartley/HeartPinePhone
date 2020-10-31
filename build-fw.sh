@@ -16,6 +16,15 @@ shift 1
 cargo_target=./target/spec/release
 fw_target=./target/firmware
 fw_target_bld="$fw_target"/intermediate
+prefix="$(jq -r '.hpp["platform-prefix"] | select(. != null)' ./"$proj"/compile-target/spec.json)"
+if [ -z "$prefix" ]; then
+  AS="as"
+  OBJCOPY="objcopy"
+else
+  AS="$prefix-as"
+  OBJCOPY="$prefix-objcopy"
+fi
+as_flags="$(jq -r '.hpp["as-flags"] | select(. != null)' ./"$proj"/compile-target/spec.json)"
 
 echo 'Cleaning project...'
 cargo clean
@@ -25,13 +34,13 @@ echo 'Building tools...'
 gcc -O3 ./mksunxiboot/src.c -o ./target/mksunxiboot
 rm -rf ./target/compile-target/*
 cp ./"$proj"/compile-target/* ./target/compile-target/
-arm-none-eabi-as ./target/compile-target/hpprt.s -o ./target/compile-target/hpprt.o
+"$AS" $as_flags ./target/compile-target/hpprt.s -o ./target/compile-target/hpprt.o
 
 echo 'Rebuilding project...'
 cargo +nightly rustc -Z build-std=core,alloc --release --target=./target/compile-target/spec.json -p "$proj" "$@" || exit $?
 
 echo 'Extracting blob...'
-arm-none-eabi-objcopy -O binary -j .text "$cargo_target"/"$proj" "$fw_target_bld"/"$proj".bin || exit $?
+"$OBJCOPY" -O binary -j .text "$cargo_target"/"$proj" "$fw_target_bld"/"$proj".bin || exit $?
 
 echo 'Packaging for boot...'
 ./target/mksunxiboot "$fw_target_bld"/"$proj".bin "$fw_target_bld"/"$proj".hdr || exit $?

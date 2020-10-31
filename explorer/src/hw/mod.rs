@@ -12,14 +12,14 @@ pub mod vibe;
 pub mod power;
 pub mod dbg_uart;
 
-#[inline(always)]
 fn ensure_side_effect() {
   let _ = VER_REG.read();
 }
 
-#[inline(always)]
-pub fn spin_delay(loops: usize) {
-  for _ in 0..loops {
-    ensure_side_effect()
+pub fn spin_delay(approx_msec: usize) {
+  for _ in 0..approx_msec {
+    for _ in 0..1000 {
+      ensure_side_effect()
+    }
   }
 }

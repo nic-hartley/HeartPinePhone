@@ -35,7 +35,8 @@ next_bss:
     @ 32-bit wide registers and 2 of them = 64 bits = 8 bytes
     STRD r2, r3, [r0], #8
     CMP r0, r1
-    BNE next_bss
+    @ if r0 < r1, we haven't gotten there, do some more
+    BLT next_bss
     @ bss now cleared
 
     @ set stack pointer
@@ -50,4 +51,4 @@ bss_start:
 bss_end:
     .word __bss_end
 stack_start:
-    .word __stack_start
+    .word __stack_start - 4

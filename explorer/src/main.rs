@@ -12,14 +12,24 @@ fn on_panic(_info: &core::panic::PanicInfo) -> ! {
 
 #[no_mangle]
 extern "C" fn k_main() -> ! {
-  const CYCLES: usize = 50_000;
-
   led::init();
 
-  loop {
-    led::set(led::Color::White);
-    spin_delay(CYCLES);
-    led::set(led::Color::Blue);
-    spin_delay(CYCLES);
+  for _ in 0..5 {
+    for color in [
+      led::Color::White,
+      led::Color::Yellow,
+      led::Color::Cyan,
+      led::Color::Magenta,
+      led::Color::Red,
+      led::Color::Green,
+      led::Color::Blue,
+      led::Color::Black,
+    ] {
+      spin_delay(25);
+      led::set(color);
+    }
   }
+
+  spin_delay(100);
+  
 }
