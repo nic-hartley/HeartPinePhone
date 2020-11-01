@@ -1,10 +1,15 @@
 ENTRY(_start)
 
 MEMORY {
-  sram_a1 : ORIGIN = 0x00010000, LENGTH = 0x8000
-  sram_c  : ORIGIN = 0x00018000, LENGTH = 0x10000
+  sram_a1 (rx!w) : ORIGIN = 0x00010000, LENGTH = 0x00008000
+  sram_c  (rw!x) : ORIGIN = 0x00018000, LENGTH = 0x00010000
   /* the actual SRAM-C region extends out through this MEMORY segment, but I want to reserve stack space explicitly */
-  stack   : ORIGIN = 0x00028000, LENGTH = 0x0B000
+  stack   (rw!x) : ORIGIN = 0x00028000, LENGTH = 0x0000B000
+  mmio    (rw!x) : ORIGIN = 0x01C00000, LENGTH = 0x00400000
+}
+
+PHDRS {
+  load_me PT_LOAD ;
 }
 
 SECTIONS {
@@ -15,7 +20,7 @@ SECTIONS {
   .header : {
     /* value is constant, based on the contents of mksunxiboot.c */
     . += 0x60;
-  } >sram_a1 = 0x00
+  } >sram_a1 :load_me =0x00
 
   /* .text will be copied out into the binary and actually executed */
   .text : {
@@ -23,7 +28,7 @@ SECTIONS {
     *(.text .text.*);
     . = ALIGN(ALIGNMENT);
     *(.rodata .rodata.*);
-  } >sram_a1 = 0x00
+  } >sram_a1 :load_me =0x00
 
   /* This bit isn't copied into the final firmware, it just generates the __bss symbols for hpprt.o. */
   .to_zero : {
@@ -31,7 +36,7 @@ SECTIONS {
     __bss_start = .;
     *(.bss .bss.*);
     __bss_end = .;
-  } >sram_c = 0x00
+  } >sram_c :load_me =0x00
 
   /* stack grows _down_, so start it at the end of the memory region */
   __stack_start = ORIGIN(stack) + LENGTH(stack);
@@ -40,7 +45,12 @@ SECTIONS {
   /* LD yells at me if I don't have .shstrtab, so */
   .shstrtab : {
     *(.shstrtab)
-  }
+  } :NONE
+
+  /* This is just so Ghidra will work right */
+  .mmio : {
+    . += LENGTH(mmio);
+  } >mmio :load_me =0x00
 
   /DISCARD/ : { *(*) }
 }

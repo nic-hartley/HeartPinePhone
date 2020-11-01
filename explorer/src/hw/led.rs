@@ -1,5 +1,7 @@
 use super::*;
 
+#[repr(u32)]
+#[derive(Copy, Clone)]
 pub enum Color {
   Red =     0b010 << 18,
   Yellow =  0b011 << 18,
@@ -12,7 +14,7 @@ pub enum Color {
 }
 
 impl Color {
-  pub const fn of_bits(r: bool, g: bool, b: bool) -> Color {
+  pub fn of_bits(r: bool, g: bool, b: bool) -> Color {
     match (r, g, b) {
       (true, false, false) => Color::Red,
       (true, true, false) => Color::Yellow,

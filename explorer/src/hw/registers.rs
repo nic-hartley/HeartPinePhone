@@ -89,6 +89,7 @@ pub const PD_DATA_REG: Register<u32> = unsafe { Register::at_addr(0x01C2087C) };
 pub const UART0_DAT: Register<u32> = unsafe { Register::at_addr(0x01C28000) };
 pub const UART0_FCR: Register<u32> = unsafe { Register::at_addr(0x01C28008) };
 pub const UART0_LCR: Register<u32> = unsafe { Register::at_addr(0x01C2800C) };
+pub const UART0_LSR: Register<u32> = unsafe { Register::at_addr(0x01C28014) };
 pub const UART0_SCH: Register<u32> = unsafe { Register::at_addr(0x01C2801C) };
 pub const UART0_USR: Register<u32> = unsafe { Register::at_addr(0x01C2807C) };
 pub const UART0_TFL: Register<u32> = unsafe { Register::at_addr(0x01C28080) };

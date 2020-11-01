@@ -2,8 +2,6 @@
 // doesn't mean we hate it and want it gone
 // so allow(dead_code) for the whole module
 #![allow(dead_code)]
-// https://github.com/rust-lang/rust/issues/77321
-#![allow(const_item_mutation)]
 
 mod registers;
 use registers::*;
