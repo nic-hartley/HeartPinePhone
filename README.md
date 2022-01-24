@@ -1,3 +1,20 @@
+# Abandoned Project
+
+This project has been abandoned.
+Since I started it, I've learned quite a lot about security, and realized that writing my own kernel entirely from scratch isn't exactly the best way to make a secure system.
+In particular, some of the specific ideas I had regarding process handling -- not documented, but still in my head -- would have made it trivial for malicious apps to take complete, kernel-level control of the phone.
+
+I still want to make a security-first mobile OS, though not for lack of competition.
+If you'd like to see what I'm working on in that space now, check out [SecSyPhone](https://github.com/nic-hartley/secsyphone).
+
+I'm leaving this up, though.
+Partly because I may try to write a kernel again sometime, and this would be as good a place as any.
+Partly, I like having a monument to my folly.
+
+The original README is below.
+
+---
+
 # HeartPinePhone
 
 **HeartPinePhone**, sometimes **Heart** or **HPP** where unambiguous, is a custom kernel for the PinePhone.
